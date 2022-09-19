@@ -32,6 +32,10 @@ public class LoginServlet extends HttpServlet {
         String username = request.getParameter("user_id");
         String password = request.getParameter("password");
         HttpSession session = request.getSession(true);
+        String key = "times";
+        int num = 0;
+       
+        session.setAttribute(key, 0);
         session.setAttribute("USER_ID", username);
 
         Connection con = null;
