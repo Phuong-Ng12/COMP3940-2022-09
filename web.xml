@@ -26,9 +26,22 @@
   </servlet-mapping>
 
   <servlet>
+    <servlet-name>signin</servlet-name>
+    <servlet-class>SigninServlet</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>signin</servlet-name>
+    <url-pattern>/signin</url-pattern>
+  </servlet-mapping>
+
+
+  <servlet>
     <servlet-name>main</servlet-name>
     <servlet-class>MainServlet</servlet-class>
   </servlet>
+
+  
   
   <servlet-mapping>
     <servlet-name>main</servlet-name>

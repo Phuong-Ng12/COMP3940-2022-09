@@ -36,6 +36,10 @@ public class SigninServlet extends HttpServlet {
                 // con.close();
                 HttpSession session = request.getSession(true);
                 session.setAttribute("USER_ID", username);
+             
+                int num = 0;
+                String key="times";
+                session.setAttribute(key, 0);
                 response.setStatus(302);
                 response.sendRedirect("main");
             }
