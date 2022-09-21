@@ -3,9 +3,7 @@ import javax.servlet.*;
 import java.io.*;
 
 import java.sql.*;
-import java.util.Date;
 import java.util.UUID;
-import java.text.*;
 import java.nio.*;
 
 public class SigninServlet extends HttpServlet {
@@ -14,7 +12,7 @@ public class SigninServlet extends HttpServlet {
         String title = "Logged in as: ";
         String username = request.getParameter("user_id");
         String password = request.getParameter("password");
-
+        String userUUID;
         Connection con = null;
         try {
             Class.forName("oracle.jdbc.OracleDriver");
@@ -23,17 +21,21 @@ public class SigninServlet extends HttpServlet {
             return;
         }
         try {
-            con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE", "system", "oracle1");
+            con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE", "system", "1206");
             PreparedStatement preparedStatement = con
-                    .prepareStatement("SELECT * FROM STAFF WHERE NAME=? AND PASSWORD=?");
+                    .prepareStatement("SELECT * FROM USERS WHERE NAME=? AND PASSWORD=?");
             preparedStatement.setString(1, username);
             preparedStatement.setString(2, password);
             PrintWriter out = response.getWriter();
             ResultSet rs = preparedStatement.executeQuery();
-
+            
+            Statement statement = con.createStatement();
+            String SQLstatement = "SELECT ID FROM USERS WHERE name='" + username +"' AND password='" + password + "'";
+            ResultSet resultSet = statement.executeQuery(SQLstatement);
+            
+            
+            
             while (rs.next()) {
-                // preparedStatement.close();
-                // con.close();
                 HttpSession session = request.getSession(true);
                 session.setAttribute("USER_ID", username);
              
@@ -41,9 +43,20 @@ public class SigninServlet extends HttpServlet {
                 String key="times";
                 session.setAttribute(key, 0);
                 response.setStatus(302);
-                response.sendRedirect("main");
             }
 
+            while (resultSet.next()) {
+
+                userUUID = resultSet.getString("ID");
+                
+                System.out.println("userUUID here:::: " + userUUID);
+                HttpSession session = request.getSession(true);
+                session.setAttribute("userUUID", userUUID);
+                
+                
+                response.sendRedirect("main");
+            }
+            
             out.println("<html>\n" + "<head><title>" + "Login" + "</title></head>\n" + "<body>\n"
                     + "<h1 align=\"center\">" + "Username/Password is error" + "</h1>\n" + "</body>\n</html\n");
 
@@ -57,9 +70,6 @@ public class SigninServlet extends HttpServlet {
                 System.out.println("");
             }
         }
-
-        // response.setStatus(302);
-        // response.sendRedirect("main");
     }
 
     public static byte[] asBytes(UUID uuid) {
