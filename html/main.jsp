@@ -31,7 +31,7 @@
         </div>
         <br><br>
         <div style="text-align: center;">
-            <form action="/photogallery/search" method="GET">
+            <form action="/photogallery/logout" method="GET">
                 <input type="submit" value="LOGOUT">
             </form>
         </div>
