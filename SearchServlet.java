@@ -40,15 +40,15 @@ public class SearchServlet extends HttpServlet {
 		} else {
 
 			HttpSession session = request.getSession(false);
-
 			PrintWriter out = response.getWriter();
-			String caption = request.getParameter("caption");
 			String date = request.getParameter("date");
-			if (date.equals("yyyy-mm-dd"))
-				date = "";
-			// session.setAttribute("caption", caption);
-			// session.setAttribute("date", date);
-			response.sendRedirect("gallery");
+			String caption = request.getParameter("caption");
+			if (date.equals("yyyy-mm-dd") && !((caption.trim()).isBlank()))
+				// request.setAttribute("caption", request.getParameter("caption"));
+				// request.setAttribute("date", date);
+				session.setAttribute("caption", request.getParameter("caption"));
+				session.setAttribute("date", date);
+			response.sendRedirect("searchResults");
 
 		}
 	}
