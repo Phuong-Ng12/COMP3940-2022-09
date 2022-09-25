@@ -74,7 +74,7 @@ public class FileUploadServlet extends HttpServlet {
         response.setContentType("text/html");
 
         try {
-            con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE", "system", "oracle1");
+            con = DriverManager.getConnection("jdbc:oracle:thin:@10.0.0.42:1521:XE", "system", "oracle1");
             PreparedStatement preparedStatement = con
                     .prepareStatement("INSERT INTO photos (PICID, PICTURE, STARTDATE, fileN, CAPTION, USERID) VALUES (?,?,?,?,?,?)");
             UUID uuid = UUID.randomUUID();

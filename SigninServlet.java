@@ -26,7 +26,7 @@ public class SigninServlet extends HttpServlet {
             return;
         }
         try {
-            con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE", "system", "oracle1");
+            con = DriverManager.getConnection("jdbc:oracle:thin:@10.0.0.42:1521:XE", "system", "oracle1");
             preparedStatement = con.prepareStatement("SELECT * FROM USERS WHERE NAME=? AND PASSWORD=?");
             preparedStatement.setString(1, username);
             preparedStatement.setString(2, password);

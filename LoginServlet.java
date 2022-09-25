@@ -35,11 +35,12 @@ public class LoginServlet extends HttpServlet {
             System.out.println("Message: " + ex.getMessage());
             return;
         }
+        
         try {
-            con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE", "system", "oracle1");
+            con = DriverManager.getConnection("jdbc:oracle:thin:@10.0.0.42:1521:XE", "system", "oracle1");
             PreparedStatement preparedStatement = con
                     .prepareStatement("INSERT INTO users (ID, name, password) VALUES (?,?,?)");
-            UUID uuid = UUID.randomUUID();
+                    UUID uuid = UUID.randomUUID();
             preparedStatement.setBytes(1, asBytes(uuid));
             preparedStatement.setString(2, username);
             preparedStatement.setString(3, password);
@@ -56,9 +57,10 @@ public class LoginServlet extends HttpServlet {
                 System.out.println("");
             }
         }
-
+            // String uus=new String(asBytes(uuid));
+            // session.setAttribute("userUUID", uus);
         response.setStatus(302);
-        response.sendRedirect("signin");
+        response.sendRedirect("login");
     }
 
     public static byte[] asBytes(UUID uuid) {
