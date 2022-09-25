@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Index PhotoGallery</title>
+</head>
+<body>
+    <head><title>Welcome!</title></head>
+
+    <h1>If you don't have an account, please sign up</h1>
+    <form action="/photogallery/login" method="POST">
+        <label for="username">Username</label><br>
+        <input type="text" id="username" name="user_id"><br>
+        <label for="password">Password</label><br>
+        <input type="password" id="password" name="password"><br><br>
+        <input type="submit" value="Sign up">
+    </form> 
+
+    <h1>If you already have an account, please log in</h1>
+    <form action="/photogallery/signin" method="POST">
+        <label for="username">Username</label><br>
+        <input type="text" id="username" name="user_id"><br>
+        <label for="password">Password</label><br>
+        <input type="password" id="password" name="password"><br><br>
+        <input type="submit" value="Log in">
+    </form> 
+</body>
+</html>
