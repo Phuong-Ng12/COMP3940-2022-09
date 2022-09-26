@@ -39,7 +39,7 @@ public class SearchResults extends HttpServlet {
             String date = (String) session.getAttribute("date");
 
             try {
-            Connection con = DriverManager.getConnection("jdbc:oracle:thin:@10.0.0.42:1521:XE", "system", "oracle1");
+            Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE", "system", "oracle1");
             PreparedStatement preparedStatement = con.prepareStatement("SELECT FILEN FROM PHOTOS WHERE USERID=? AND CAPTION='" 
                                                                         + caption + "' AND STARTDATE='" + date + "'");                      
             preparedStatement.setString(1, userUUID);
