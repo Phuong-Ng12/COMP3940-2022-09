@@ -32,7 +32,7 @@ public class LoginServlet extends HttpServlet {
             return;
         }
         try {
-            con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE", "system", "1206");
+            con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE", "system", "oracle1");
             PreparedStatement preparedStatement = con
                     .prepareStatement("INSERT INTO users (ID, name, password) VALUES (?,?,?)");
             UUID uuid = UUID.randomUUID();
