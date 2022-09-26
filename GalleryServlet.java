@@ -25,8 +25,6 @@ public class GalleryServlet extends HttpServlet {
 
             // Shows Gallery.html
             response.setContentType("text/html");
-            // RequestDispatcher view = request.getRequestDispatcher("html/gallery.html");
-            // view.forward(request, response);
             response.setCharacterEncoding("UTF-8");
             File dir = new File("C:\\tomcat\\webapps\\photogallery\\images"); // Remove later
             String[] chld = dir.list(); //
