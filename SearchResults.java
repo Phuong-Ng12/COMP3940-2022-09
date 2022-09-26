@@ -34,8 +34,7 @@ public class SearchResults extends HttpServlet {
             // Gets all images posted by the signed in user
             ArrayList<String> photos = new ArrayList<String>();
             String userUUID = (String) session.getAttribute("userUUID");
-            // String caption = (String) session.getAttribute("caption");
-            String caption = "TestingFile";
+            String caption = (String) session.getAttribute("caption");
             String date = (String) session.getAttribute("date");
 
             try {
