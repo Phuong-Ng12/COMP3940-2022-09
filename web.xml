@@ -83,6 +83,8 @@
     <servlet-name>list</servlet-name>
     <url-pattern>/list</url-pattern>
   </servlet-mapping>
+
+  <servlet>
     <servlet-name>searchResults</servlet-name>
     <servlet-class>SearchResults</servlet-class>
   </servlet>
