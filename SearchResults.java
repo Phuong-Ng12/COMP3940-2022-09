@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 import java.sql.*;
 
-public class GalleryServlet extends HttpServlet {
+public class SearchResults extends HttpServlet {
       private int mCount;
       String key = "times";
 
@@ -22,7 +22,6 @@ public class GalleryServlet extends HttpServlet {
                   response.sendRedirect("login");
             }
             
-
             // Shows Gallery.html
             response.setContentType("text/html");
             // RequestDispatcher view = request.getRequestDispatcher("html/gallery.html");
@@ -35,10 +34,14 @@ public class GalleryServlet extends HttpServlet {
             // Gets all images posted by the signed in user
             ArrayList<String> photos = new ArrayList<String>();
             String userUUID = (String) session.getAttribute("userUUID");
+            // String caption = (String) session.getAttribute("caption");
+            String caption = "TestingFile";
+            String date = (String) session.getAttribute("date");
 
             try {
-            Connection con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE", "system", "oracle1");
-            PreparedStatement preparedStatement = con.prepareStatement("SELECT FILEN FROM PHOTOS WHERE USERID=?");
+            Connection con = DriverManager.getConnection("jdbc:oracle:thin:@10.0.0.42:1521:XE", "system", "oracle1");
+            PreparedStatement preparedStatement = con.prepareStatement("SELECT FILEN FROM PHOTOS WHERE USERID=? AND CAPTION='" 
+                                                                        + caption + "' AND STARTDATE='" + date + "'");                      
             preparedStatement.setString(1, userUUID);
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
@@ -86,11 +89,12 @@ public class GalleryServlet extends HttpServlet {
                   out.println("<meta charset='UTF-8'>");
                   out.println("<body>");
                   out.println("<div>");
-                  out.println("<form action='/photogallery/gallery' method='GET'>");
+                  out.println("<form action='/photogallery/searchResults' method='GET'>");
                   out.println("<div>");
                   out.println("<img id = \"img_src\" src=./images/" + img_src + " alt=" + alt_text
                               + " width=200 height=150>");
                   out.println("<div>");
+                  out.print("<h1>" + date + " " + caption + "<h1>");
                   out.println("<br>");
                   out.println("<div class='button'>");
                   out.println("<button class='button' id='prev' onclick='Prev()'>Prev</button>");
@@ -107,17 +111,17 @@ public class GalleryServlet extends HttpServlet {
                   out.println("function Next() {");
                   out.println("const xhttp = new XMLHttpRequest();");
                   out.println("var k2='key'");
-                  out.println(" xhttp.open('GET','/photogallery/gallery?SS=k2');");
+                  out.println(" xhttp.open('GET','/photogallery/searchResults?SS=k2');");
                   out.println("xhttp.send();}");
                   out.println("function Prev() {");
                   out.println("const xhttp = new XMLHttpRequest();");
                   out.println("var k3='key'");
-                  out.println(" xhttp.open('GET','/photogallery/gallery?FF=k3');");
+                  out.println(" xhttp.open('GET','/photogallery/searchResults?FF=k3');");
                   out.println("xhttp.send();}");
                   out.println("function Auto() {");
                   out.println("const xhttp = new XMLHttpRequest();");
                   out.println("var k4='key'");
-                  out.println(" xhttp.open('GET','/photogallery/gallery?AA=k4');");
+                  out.println(" xhttp.open('GET','/photogallery/searchResults?AA=k4');");
                   out.println("xhttp.send();}");
                   out.println("</script>");
                   out.println("</body></html>");
@@ -138,6 +142,11 @@ public class GalleryServlet extends HttpServlet {
                         out.println("</body></html>");
                        
                   }
+                  out.println("<br/>");
+                  out.println("<form action='main' method='GET'>");
+                  out.println("<button class='button' id='main'>Main</button>");
+                  out.println("</div><br>");
+                  
             }
 
             out.close();
