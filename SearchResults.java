@@ -39,7 +39,7 @@ public class SearchResults extends HttpServlet {
 
             try {
             Connection con = DriverManager.getConnection("jdbc:oracle:thin:@10.0.0.42:1521:XE", "system", "oracle1");
-            PreparedStatement preparedStatement = con.prepareStatement("SELECT FILEN FROM PHOTOS WHERE USERID=?");
+            PreparedStatement preparedStatement = con.prepareStatement("SELECT FILEN FROM PHOTOS WHERE USERID=? AND CAPTION='Smoke'");
             preparedStatement.setString(1, userUUID);
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {

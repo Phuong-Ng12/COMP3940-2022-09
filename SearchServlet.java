@@ -46,7 +46,7 @@ public class SearchServlet extends HttpServlet {
 			if (date.equals("yyyy-mm-dd") && !((caption.trim()).isBlank()))
 				// request.setAttribute("caption", request.getParameter("caption"));
 				// request.setAttribute("date", date);
-				session.setAttribute("caption", request.getParameter("caption"));
+				session.setAttribute("caption", caption);
 				session.setAttribute("date", date);
 			response.sendRedirect("searchResults");
 
