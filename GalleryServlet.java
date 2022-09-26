@@ -96,7 +96,6 @@ public class GalleryServlet extends HttpServlet {
                   out.println("<button class='button' id='prev' onclick='Prev()'>Prev</button>");
                   out.println("<button class='button' id='next'  onclick='Next()'>Next</button>");
                   out.println("<button class='button' id='auto'  onclick='Auto()'>Auto</button>");
-                  out.println("<button class='button' id='auto'  onclick='Delete()'>Delete</button>");
                   out.println("</div></div><br>");
                   out.println("</form>");
                   out.println("<div>");
