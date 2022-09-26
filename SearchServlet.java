@@ -38,11 +38,10 @@ public class SearchServlet extends HttpServlet {
 		if (!(isLoggedIn(request))) {
 			response.sendRedirect("login");
 		} else {
-
 			HttpSession session = request.getSession(false);
 			PrintWriter out = response.getWriter();
-			String date = request.getParameter("date");
 			String caption = request.getParameter("caption");
+			String date = request.getParameter("date");
 			if (date.equals("yyyy-mm-dd") && !((caption.trim()).isBlank()))
 				// request.setAttribute("caption", request.getParameter("caption"));
 				// request.setAttribute("date", date);

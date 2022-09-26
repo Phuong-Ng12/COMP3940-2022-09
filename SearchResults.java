@@ -34,12 +34,14 @@ public class SearchResults extends HttpServlet {
             // Gets all images posted by the signed in user
             ArrayList<String> photos = new ArrayList<String>();
             String userUUID = (String) session.getAttribute("userUUID");
-            String caption = (String) session.getAttribute("caption");
+            // String caption = (String) session.getAttribute("caption");
+            String caption = "TestingFile";
             String date = (String) session.getAttribute("date");
 
             try {
             Connection con = DriverManager.getConnection("jdbc:oracle:thin:@10.0.0.42:1521:XE", "system", "oracle1");
-            PreparedStatement preparedStatement = con.prepareStatement("SELECT FILEN FROM PHOTOS WHERE USERID=? AND CAPTION='Smoke'");
+            PreparedStatement preparedStatement = con.prepareStatement("SELECT FILEN FROM PHOTOS WHERE USERID=? AND CAPTION='" 
+                                                                        + caption + "' AND STARTDATE='" + date + "'");                      
             preparedStatement.setString(1, userUUID);
             ResultSet rs = preparedStatement.executeQuery();
             while (rs.next()) {
