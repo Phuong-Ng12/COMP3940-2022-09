@@ -13,7 +13,11 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.*;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 import java.nio.*;
 
 
@@ -52,13 +56,14 @@ public class FileUploadServlet extends HttpServlet {
         
         DateTimeFormatter dateTimeft = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate localDate = LocalDate.parse(formDate, dateTimeft);
-        
-        System.out.println("userID: " + session.getAttribute("userUUID"));
-        System.out.println("userName: " + session.getAttribute("USER_ID"));
-        System.out.println("userUUID: " + session.getAttribute("userUUID"));
-        System.out.println("user Local Date: " + localDate);
 
         Connection con = null;
+        PreparedStatement preparedStatement = null;
+        
+        Statement statement = null;
+        ResultSet resultSet = null;
+        String photoFile = "";
+        ArrayList<String> listOfPhotos = new ArrayList<String>();
 
         if (fileName.equals("")) {
             response.setStatus(302);
@@ -75,8 +80,7 @@ public class FileUploadServlet extends HttpServlet {
 
         try {
             con = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:XE", "system", "oracle1");
-            PreparedStatement preparedStatement = con
-                    .prepareStatement("INSERT INTO photos (PICID, PICTURE, STARTDATE, fileN, CAPTION, USERID) VALUES (?,?,?,?,?,?)");
+            preparedStatement = con.prepareStatement("INSERT INTO photos (PICID, PICTURE, STARTDATE, fileN, CAPTION, USERID) VALUES (?,?,?,?,?,?)");
             UUID uuid = UUID.randomUUID();
             preparedStatement.setBytes(1, asBytes(uuid));
             String file = "C:\\tomcat\\webapps\\photogallery\\images\\" + fileName;
@@ -88,8 +92,18 @@ public class FileUploadServlet extends HttpServlet {
             preparedStatement.setString(5, captionName);
             preparedStatement.setString(6, userUUID);
             int row = preparedStatement.executeUpdate();
-            preparedStatement.close();
-            con.close();
+            
+            statement = con.createStatement();
+            
+            String SQLstatement = "SELECT FILEN FROM PHOTOS WHERE USERID='" + userUUID +"'";
+            resultSet = statement.executeQuery(SQLstatement);
+            
+            while (resultSet.next()) {
+                photoFile = resultSet.getString("FILEN");
+                listOfPhotos.add(photoFile);
+            }
+            
+            session.setAttribute("listOfPhotos", listOfPhotos);
         } catch (SQLException ex) {
 
             while (ex != null) {
@@ -99,23 +113,46 @@ public class FileUploadServlet extends HttpServlet {
                 ex = ex.getNextException();
                 System.out.println("");
             }
+        } finally {
+            try {
+                if (con != null) {
+                    con.close();
+                }
+            } catch (Exception e) {}
+            try {
+                if (preparedStatement != null) {
+                    preparedStatement.close();
+                }
+            } catch (Exception e) {}
         }
-
+        
+        response.setStatus(302);
         PrintWriter out = response.getWriter();
         String topPart = "<!DOCTYPE html><html><body><ul>";
         String bottomPart = "</ul></body></html>";
-        out.println(topPart + getListing("c:\\tomcat\\webapps\\photogallery\\images") + bottomPart);
+        out.println(topPart + getListing("c:\\tomcat\\webapps\\photogallery\\images", listOfPhotos) + bottomPart);
+        out.println("<form action='main' method='GET'>");
+        out.println("<button class='button' id='main'>Main</button>");
+        out.println("<br>");
+        out.println("</form>");
+        out.println("<form method=\"POST\" action=\"list\" " + "enctype=\"multipart/form-data\">\r\n");
+        out.println("Filename of photo you want to delete: <input type=\"text\" name=\"fileName\"<br/><br/>\r\n");
+        out.println("<br />\n");
+        out.println("<input type=\"submit\" value=\"Delete\"/>\r\n");
+        out.println("</form>\r\n");
+        
+        
     }
 
-    private String getListing(String path) {
-        String dirList = null;
+    private String getListing(String path, ArrayList<String> listOfPhotos) {
+        String dirList = "";
         File dir = new File(path);
-        String[] chld = dir.list();
-        for (int i = 0; i < chld.length; i++) {
-            if ((new File(path + chld[i])).isDirectory())
-                dirList += "<li><button type=\"button\">" + chld[i] + "</button></li>";
+        
+        for (int i = 0; i < listOfPhotos.size(); i++) {
+            if ((new File(path + listOfPhotos.get(i))).isDirectory())
+                dirList += "<li><button type=\"button\">" + listOfPhotos.get(i) + "</button></li>";
             else
-                dirList += "<li>" + chld[i] + "</li>";
+                dirList += "<li>" + listOfPhotos.get(i) + "</li>";
         }
         return dirList;
     }
