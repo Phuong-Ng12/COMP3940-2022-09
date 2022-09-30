@@ -84,4 +84,15 @@
     <url-pattern>/list</url-pattern>
   </servlet-mapping>
 
+  <servlet>
+    <servlet-name>searchResults</servlet-name>
+    <servlet-class>SearchResults</servlet-class>
+  </servlet>
+  
+  <servlet-mapping>
+    <servlet-name>searchResults</servlet-name>
+    <url-pattern>/searchResults</url-pattern>
+  </servlet-mapping>
+
+
 </web-app>

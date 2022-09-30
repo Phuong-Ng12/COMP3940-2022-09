@@ -13,6 +13,8 @@ public class MainServlet extends HttpServlet {
 	response.sendRedirect("login");	
       }		
       String title = "Logged in as: ";
+	  String key="times";
+	  session.setAttribute(key, 0);
       title += session.getAttribute("USER_ID");
       response.setContentType("text/html");
       String docType = "<!doctype html public \"-//w3c//dtd html 4.0 " + "transitional//en\">\n";
