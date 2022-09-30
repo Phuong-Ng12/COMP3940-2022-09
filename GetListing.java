@@ -32,7 +32,7 @@ public class GetListing {
         File uploadFile1 = new File(fn);
         String requestURL = "http://localhost:8081/upload/upload";
         try {
-            MultipartUtility1 multipart = new MultipartUtility1(requestURL, charset);
+            MultipartUtility multipart = new MultipartUtility(requestURL, charset);
             multipart.addFormField("caption", cap);
             multipart.addFormField("date", date);
             multipart.addFilePart("File", uploadFile1);
