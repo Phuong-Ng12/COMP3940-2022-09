@@ -3,6 +3,7 @@ import java.io.*;
 import java.time.Clock;
 public class UploadServerThread extends Thread {
    private Socket socket = null;
+   Class<?> newClass;
    public UploadServerThread(Socket socket) {
       super("DirServerThread");
       this.socket = socket;
