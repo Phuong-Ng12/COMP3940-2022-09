@@ -3,6 +3,9 @@ import java.io.*;
 public class UploadServer {
     public static void main(String[] args) throws IOException {
         ServerSocket serverSocket = null;
+        System.out.println("Starting server...");
+        System.out.println("Using port 8999");
+        System.out.println("On localhost");
         try {
             serverSocket = new ServerSocket(8999);
         } catch (IOException e) {

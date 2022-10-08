@@ -127,7 +127,7 @@ public class FileUploadServlet extends HttpServlet {
         }
         
         response.setStatus(302);
-        PrintWriter out = response.getWriter();
+        PrintWriter out2 = response.getWriter();
         String topPart = "<!DOCTYPE html><html><body><ul>";
         String bottomPart = "</ul></body></html>";
         out.println(topPart + getListing("c:\\tomcat\\webapps\\photogallery\\images", listOfPhotos) + bottomPart);
