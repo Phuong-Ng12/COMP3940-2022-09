@@ -1,51 +1,46 @@
-Assignment 2:
+[Assignment is 90% complete]
 
-Instructions
-[8 marks]
+Missing components:
+a)Reflection (AOP) part; creating a httpServlet is still "HttpServlet = new UploadSerlvet" instead of using Class<?> theClass; method.
 
- Utilizing Java’s TCP socket class develop your own custom Java web server that replicates the file upload functionality of Assignment I.  In other words, upon user specifying the URL of your web server on the browser, a file upload page, similar to the one in your Assignment I, should appear.  The user then shall be able to select an image file from a local folder and upload it to the server along with additional form data such as the date and caption of the Image.  [Hint:  use wireshark to confirm the composition and format of the request].   The server should be able to support uploads from multiple users simultaneously thus implying that it should be a multithreaded. 
+b)When the POST request happens from the browser, the data sent cannot be stored. We have spend 1-2 days trying to solve this so we hope its not a big issue since
+we are sending the data, just not reading it.
 
- 
+Download:
+UploadServer - the server that will be used to manage file upload and users.
+ConsoleApp - Java Console Application that will work with the UploadServer to post a file in the console.
 
-The design of the server should be based on Object Oriented paradigm.  In other words, define your own interface or abstract class with two methods doGet and doPost.  Feel free to name this interface or abstract class as “Servlet”.  The doGet and doPost methods should have a request and a response object as parameters. Thus, define your own HttpRequest as well as HttpResponse classes to contain and parse the incoming and outgoing HTTP messages over TCP.  Create a FileUploadServlet that inherits from your Servlet class and implements its doGet and/or doPost methods appropriately to render the desired content to the browser.  Additionally, your server side would likely have the main Server class and the ServerThread class. 
+Instructions:
 
- 
+1. Compile downloaded java files in both UploadServer and ConsoleApp with:
+javac -classpath *.java while in the directory
 
-Use Java Reflection to demonstrate that the FileUploadServlet could be compiled independently by the programmer and thereafter loaded and invoked dynamically by your server at run-time. 
+	
+2.	ConsoleApp:
+	
+	1A) Start up the compiled UploadServer.java file in Upload Server by using command 
+		java -cp .;json-simple-1.1.jar UploadServer
 
- 
-
-Server should print appropriate debug (log) messages on the console at runtime to clearly present the order in which classes and methods are being called on the server side.  Any caught exception should be logged into a file.  Use AspectJ for this part.
-
- 
-
-After the request to upload has been handled, the server shall return an alphabetically sorted listing of the images folder as a response.  Refer to DirServlet for code for this functionality.  Use Stream API for sorting.
-
- 
-
-The server shall be able to distinguish between a request coming from a browser vs a desktop/native app.  If the request comes from the desktop/native app the server shall return the listing as a JSON string as opposed to an HTML page.  You are welcomed to use 3rd party libraries to handle creation and parsing of JSON strings.
-
- 
-
-Define and use at least one custom exception in your design.
-
- 
-
-Native Client App:
-
- 
-
-Develop a Java/TCP console application that uploads an image as multipart data along with other form data e.g. date and keyword via the upload Servlet you created in Assignment I.  Connect this console app to the above custom server as well, parse the JSON string in the incoming response from the server and print out the received listing on the screen. 
-
-Submission Instructions: 
-
-Please submit the code (preferably a link to the team’s github repo) and a readme.txt file containing instructions for compiling and running the code.  Also identify how the work was split among team members including testing done.  It is preferred that there is one owner per class.  Record and upload the demo of your solution.  A live online demo is also expected from each team sometimes around the due date.  
+	2A) Once the server is running, start the compiled Activity.java file by using command
+		java -cp .;json-simple-1.1.jar Activity
+		and type in the approriate values for the required fields.
 
 
-Reference Code:
+3.	UploadServer
 
- 
+	1B) Start up the compiled UploadServer.java file in Upload Server.
 
-Please find attached the code that should get you started on Assignment II.  Download and unzip the folder.  You will find two sub folders – UploadServer and ConsolApp.  Go to the UploadServer folder and run the UploadServer class using “java -classpath . UploadServer”.  Open another command window and go to CosnoleApp folder and run the Activity.class using “java -classpath . Activity”.  Each time you run the Activity class, it uploads a harcoded image file to the upload server which saves it in a local folder with a new timestamp as its filename.  Please have this running before your class on Monday.
+	2B) Now that the server is running, go to the link: http://localhost:8999/upload
 
-This reference code does not support web protocols.  Your assignment is basically to enhance this reference code such that the ConsoleApp is able to talk to the UploadServlet used for Assignment I(b) (also attached below) in addition to the UploadServer of this assignment.   Enhance the above UploadServer so when contacted via a browser, it returns the HTML page that allows the user to specify the caption, date  and time, and an image using file uploader.  The server should parse the incoming multipart content in the HTTP Request and save the image file in a local directory.  Additionally, you will be incorporating Component based architecture, singleton design pattern, aspect oriented programming paradigm and functional programming paradigm in your solution.  
+	3B) You can upload your file by choosing a file of your liking and filling in the caption and date.
+		(this will only call the post method and send the file in the form of multipart data that is not parsed)
+
+
+*Notes: Please note that UploadClient0.java is for GET and UploadClient.java is for POST
+	
+	When using GET change Activity Line 14 to:
+	System.out.println(new UploadClient0().uploadFile());
+	
+	When using POST change Activity Line 14 to:
+	System.out.println(new UploadClient().uploadFile());
+
